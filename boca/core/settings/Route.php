@@ -20,7 +20,7 @@ class Route
 		if (is_string($callback)) {
 			self::StringHundel($callback);
 		}
-		hundel($namespace, $route, $callback);
+		self::hundel($namespace, $route, $callback , "POST");
 	}
 
 	public static function hundel(string $namespace, $route, $callback, $method)
