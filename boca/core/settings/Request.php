@@ -60,4 +60,8 @@ class Request extends RequestHandler
 	{
 		return self::$body;
 	}
+	public static function  method()
+	{
+		return self::$method;
+	}
 }

@@ -14,6 +14,8 @@ abstract class RequestHandler
     public static $http;
     public static $host;
     public static $previous;
+    public static $method;
+
 
     public function __construct()
     {
@@ -31,6 +33,7 @@ abstract class RequestHandler
         self::$json = file_get_contents("php://input");
         self::$headers = apache_request_headers();
 		self::$previous = $_SERVER["HTTP_REFERER"];
+		self::$method = $_SERVER["REQUEST_METHOD"];
     }
 
     abstract static function query();
@@ -52,4 +55,6 @@ abstract class RequestHandler
     abstract static  function json();
 
     abstract static  function body();
+
+	abstract static function method();
 }
