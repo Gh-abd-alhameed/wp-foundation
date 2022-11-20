@@ -16,7 +16,6 @@ class Redirect
 		}
 		return new Redirect();
 	}
-
 	public function back()
 	{
 		header("Location: " . Request::previous());

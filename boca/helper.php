@@ -28,9 +28,9 @@ if (!function_exists("response")) {
 	}
 }
 if (!function_exists("redierct")) {
-	function redierct(string $from = "", string $to = "")
+	function redierct()
 	{
-		return new Redirect($from, $to);
+		return new Redirect();
 	}
 }
 if (!function_exists("echo_token_app_meta")) {
@@ -53,7 +53,7 @@ if (!function_exists("echo_token_app_input")) {
 if (!function_exists("dir_site")) {
 	function dir_site($path = ''): string
 	{
-		return $_SERVER["DOCUMENT_ROOT"] . Init::$app["url"] . $path;
+		return  Init::$app["dir_theme"] . $path;
 	}
 }
 
@@ -112,8 +112,6 @@ if (!function_exists("component")) {
 		$path = explode(".", $name);
 
 		$name_file = realpath($path);
-		var_dump($path);
-		die();
 		$name = str_replace(".php", "", $name);
 
 		if (!file_exists(components . "/" . $name . ".php")) {
@@ -158,13 +156,12 @@ if (!function_exists("view")) {
 if (!function_exists("request")) {
 	function request()
 	{
-		return new \boca\mvc\core\settings\Request();
+		return new \boca\core\settings\Request();
 	}
 }
 if (!function_exists("assets")) {
 	function assets($path)
 	{
-
 		if (!is_string($path)) {
 			if (Init::$app["debug"]) {
 				die(__FILE__ . "|Line:" . __LINE__ . "|Message: (assets) \$path most be string");
@@ -175,7 +172,7 @@ if (!function_exists("assets")) {
 				die(__FILE__ . "|Line:" . __LINE__ . "|Message: (assets) " . ROOT . "/assets$path" . " File Not Found");
 			}
 		}
-		echo URL_ROOT . "/puplic$path";
+		echo Init::$app["url_theme"] . "/assets$path";
 	}
 }
 if (!function_exists("_trans")) {
