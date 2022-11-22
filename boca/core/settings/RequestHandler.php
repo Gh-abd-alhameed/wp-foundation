@@ -32,7 +32,7 @@ abstract class RequestHandler
         self::$param = [];
         self::$json = file_get_contents("php://input");
         self::$headers = apache_request_headers();
-		self::$previous = $_SERVER["HTTP_REFERER"];
+		self::$previous = isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : "";
 		self::$method = $_SERVER["REQUEST_METHOD"];
     }
 
