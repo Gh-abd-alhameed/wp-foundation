@@ -49,11 +49,19 @@ class Locale
 				self::$locale = app("locale");
 			}
 		}
+		/*
+		 * not use
+		 */
+		//if (!is_admin()):
+			// global $wp_locale_switcher;
+			//	$wp_locale_switcher->switch_to_locale( self::$locale );
+		//endif;
 	}
 
 	public static function SetUrlSiteInit()
 	{
 		add_filter('option_home', [new Locale, 'replace_siteurl']);
+
 	}
 
 	public static function replace_siteurl($val)
