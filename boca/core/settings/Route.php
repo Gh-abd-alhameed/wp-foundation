@@ -59,10 +59,20 @@ class Route
 	{
 		add_action('rest_api_init', function () {
 			foreach (self::$route as $key => $value) {
-				register_rest_route(self::$namespace, $value["route"], array(
-					'methods' => $value["method"],
-					'callback' => $value["callback"],
-				));
+				if(is_array($value["callback"]))
+				{
+					$namespase = new $value["callback"][0];
+					$function = $namespase->{$value["callback"][1]}();
+					register_rest_route(self::$namespace, $value["route"], array(
+						'methods' => $value["method"],
+						'callback' =>$function,
+					));
+				}else{
+					register_rest_route(self::$namespace, $value["route"], array(
+						'methods' => $value["method"],
+						'callback' => $value["callback"],
+					));
+				}
 			}
 		});
 	}
