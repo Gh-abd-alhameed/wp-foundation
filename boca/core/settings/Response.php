@@ -6,8 +6,7 @@ class Response
 {
     public function json($value)
     {
-        echo json_encode($value);
-        return $this;
+    	return json_encode($value);
     }
 
     public function status(int $code = 200, string $message = "")

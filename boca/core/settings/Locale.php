@@ -8,15 +8,16 @@ class Locale
 {
 	protected static $locale;
 
+	public static $code;
+
 	public function __construct()
 	{
-
 	}
-
 	public static function get()
 	{
 		return self::$locale;
 	}
+
 
 	public static function set(string $locale)
 	{
@@ -28,12 +29,23 @@ class Locale
 		}
 		self::$locale = $locale;
 	}
-
+	public static function LocaleCode() : string
+	{
+		return self::$code;
+	}
 	public static function Init()
 	{
 		self::SetLocaleInit();
-		add_action("init", [new Locale, "SetUrlSiteInit"]);
+		Hooks::Init("init", function ()  {
+			Hooks::action(function () {
+				Hooks::Init("option_home", function () {
+					Hooks::filter(function ($val) {
+						return url_site();
+					});
+				});
 
+			});
+		});
 	}
 
 	public static function SetLocaleInit()
@@ -44,28 +56,13 @@ class Locale
 		$locale = Init::$app["available_locales"];
 		if ($check) {
 			if (key_exists(end($mache), $locale)) {
-				self::$locale = end($mache);
+				$language = end($mache);
+				self::$code = Init::$app["available_locales"][$language]["code"];
+				self::$locale = $language;
 			} else {
-				self::$locale = app("locale");
+				self::$locale = Init::$app["available_locales"][app("locale")];
+				self::$code = Init::$app["available_locales"][app("locale")]["code"];
 			}
 		}
-		/*
-		 * not use
-		 */
-		//if (!is_admin()):
-			// global $wp_locale_switcher;
-			//	$wp_locale_switcher->switch_to_locale( self::$locale );
-		//endif;
-	}
-
-	public static function SetUrlSiteInit()
-	{
-		add_filter('option_home', [new Locale, 'replace_siteurl']);
-
-	}
-
-	public static function replace_siteurl($val)
-	{
-		return  url_site();
 	}
 }
