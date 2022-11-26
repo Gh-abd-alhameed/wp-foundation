@@ -13,8 +13,12 @@ class Hooks
 	{
 		self::$hook = $hook;
 		$callback();
-		self::runAction();
-		self::runFilter();
+		if (self::$actions):
+			self::runAction();
+		endif;
+		if (self::$filters):
+			self::runFilter();
+		endif;
 	}
 
 	public static function filter(\Closure $callback)
@@ -26,18 +30,18 @@ class Hooks
 	{
 		self::$actions[] = ["hook" => self::$hook, "callback" => $callback];
 	}
+
 	public static function runAction()
 	{
-		foreach (self::$actions as $key => $value)
-		{
-			add_action($value["hook"] , $value["callback"]);
+		foreach (self::$actions as $key => $value) {
+			add_action($value["hook"], $value["callback"]);
 		}
 	}
+
 	public static function runFilter()
 	{
-		foreach (self::$filters as $key => $value)
-		{
-			add_filter($value["hook"] , $value["callback"]);
+		foreach (self::$filters as $key => $value) {
+			add_filter($value["hook"], $value["callback"]);
 		}
 	}
 }
