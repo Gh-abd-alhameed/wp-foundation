@@ -11,7 +11,7 @@ class Response
 
     public function status(int $code = 200, string $message = "")
     {
-        header("HTTP/2.0 $code $message");
+        header("HTTP/1.1 $code $message");
         return $this;
     }
 

@@ -60,7 +60,7 @@ class Locale
 				self::$code = Init::$app["available_locales"][$language]["code"];
 				self::$locale = $language;
 			} else {
-				self::$locale = Init::$app["available_locales"][app("locale")];
+				self::$locale = Init::$app["available_locales"][app("locale")]["name"];
 				self::$code = Init::$app["available_locales"][app("locale")]["code"];
 			}
 		}
