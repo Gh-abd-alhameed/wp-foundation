@@ -51,12 +51,13 @@ class Locale
 	public static function SetLocaleInit()
 	{
 		$url = Request::http() . Request::host() . Request::uri();
-		$pattern = "/^(http(s)?:\/\/)?(\w+.)?(\w+[\-]?\w+)(-\w+)?\.?\w+\/?((\w+)\/?)/";
+//		old pattern $pattern = "/^(http(s)?:\/\/)?(\w+.)?(\w+[\-]?\w+)(-\w+)?\.?\w+\/?((\w+)\/?)/";
+		$pattern = "/^(http(s)?:\/\/)?(\w+.)?(\w+[\-]?\w+)(-\w+)?\.?\w+\/?(([\w-]+)\/?)/";
 		$check = preg_match($pattern, $url, $mache);
 		$locale = Init::$app["available_locales"];
 		if ($check) {
-			if (key_exists(end($mache), $locale)) {
-				$language = end($mache);
+			$language = strpos(end($mache) , "-") ?  explode("-" ,end($mache) )[0] : end($mache);
+			if (key_exists($language, $locale) && (Init::$app["available_locales"][$language]["prefix"] == "/" . end($mache) ) && (Init::$app["available_locales"][$language]["active"] == "true" )) {
 				self::$code = Init::$app["available_locales"][$language]["code"];
 				self::$locale = $language;
 			} else {
